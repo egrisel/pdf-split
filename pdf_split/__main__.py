@@ -245,8 +245,12 @@ class SplitWindow(QWidget):
         self.btn_split.setText("Fractionner le PDF")
 
 
-if __name__ == '__main__':
+def main():
     app = QApplication()
     window = SplitWindow()
     window.show()
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()
