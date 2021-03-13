@@ -28,7 +28,7 @@ class SplitFileTask(QRunnable):
 
     def run(self):
         with open(self.file, 'rb') as f:
-            pdf = PdfFileReader(f)
+            pdf = PdfFileReader(f, strict=False)
             total_pages = pdf.getNumPages()
             pages_per_pdf = math.ceil(total_pages / self.quantity())
             current_pdf = 1
@@ -173,7 +173,7 @@ class SplitWindow(QWidget):
         )
         file = Path(fileName[0])
         with open(fileName[0], 'rb') as f:
-            pdf = PdfFileReader(f)
+            pdf = PdfFileReader(f, strict=False)
             if pdf.getNumPages() < 2:
                 dlg = QMessageBox(self)
                 dlg.setWindowTitle("Error")
