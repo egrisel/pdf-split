@@ -5,6 +5,7 @@ Il est écrit en Python et nécessite les librairies PySide2 et PyPDF2.
 
 ## Installation
 Dans un environnement virtuel Python :
+
 ```pip install -r requirements.txt```
 
 ## Exécution
