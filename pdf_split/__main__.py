@@ -1,6 +1,7 @@
 import sys
 import os
 import math
+import ctypes
 
 from pathlib import Path
 from PyPDF2 import PdfFileReader, PdfFileWriter
@@ -10,8 +11,14 @@ from PySide2.QtWidgets import (
     QMessageBox, QSpinBox, QVBoxLayout
 )
 from PySide2.QtCore import (
-    QRunnable, QThreadPool, Slot, Signal, QObject
+    QRunnable, QThreadPool, Slot, Signal, QObject, Qt, QSize
 )
+
+from PySide2.QtGui import QPixmap, QIcon
+
+
+myappid = 'gwap.pdf-split.1.0.0'
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 
 class MyEmitter(QObject):
@@ -71,8 +78,16 @@ class SplitWindow(QWidget):
         self.setStyleSheet("background: white;")
 
         # Icône du programme
+        app_icon = QIcon()
+        app_icon.addFile('logo_icon_white.png', QSize(64, 64))
+        self.setWindowIcon(app_icon)
 
         # Définit le logo du programme
+        image = QPixmap('logo-app.png')
+        self.logo_lbl = QLabel()
+        self.logo_lbl.setAlignment(Qt.AlignCenter)
+        self.logo_lbl.setPixmap(image)
+        self.logo_lbl.setStyleSheet("margin: 20px 0;")
 
         # Variables du programme
         self.folder = str(Path.home())
@@ -155,6 +170,7 @@ class SplitWindow(QWidget):
         self.btn_split.clicked.connect(self.split_file)
 
         # Applique le layout final
+        self.main_layout.addWidget(self.logo_lbl)
         self.main_layout.addWidget(self.select_lbl)
         self.main_layout.addLayout(self.select_layout)
         self.main_layout.addWidget(self.quantity_lbl)
