@@ -1,0 +1,1 @@
+pyinstaller gui.py --name pdf-split -w --onefile --add-data images/logo_icon_white.png:images --add-data images/logo-app.png:images
