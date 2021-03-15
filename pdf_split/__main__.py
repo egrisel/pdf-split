@@ -2,6 +2,7 @@ import sys
 import os
 import math
 import ctypes
+import platform
 
 from pathlib import Path
 from PyPDF2 import PdfFileReader, PdfFileWriter
@@ -16,9 +17,10 @@ from PySide2.QtCore import (
 
 from PySide2.QtGui import QPixmap, QIcon
 
-
-myappid = 'gwap.pdf-split.1.0.0'
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+plt = platform.system()
+if plt == "Windows":
+    myappid = 'gwap.pdf-split.1.0.0'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 
 class MyEmitter(QObject):
