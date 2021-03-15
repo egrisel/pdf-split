@@ -19,10 +19,22 @@ from PySide2.QtCore import (
 
 from PySide2.QtGui import QPixmap, QIcon
 
+
 plt = platform.system()
 if plt == "Windows":
     myappid = 'gwap.pdf-split.1.0.0'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 class MyEmitter(QObject):
@@ -59,35 +71,6 @@ class SplitFileTask(QRunnable):
             pdf2 = fitz.open()
             pdf2.insert_pdf(pdf, from_page=start_page, to_page=end_page)
             pdf2.save(full_output_filename)
-            print(f"Créé : {full_output_filename}")
-        # pages_per_pdf = math.ceil(total_pages / self.quantity())
-        # current_pdf = 1
-        # current_page_in_loop = 0
-        # for page in range(total_pages):
-        #     finished = False
-        #     if current_page_in_loop == 0:
-        #         pdf_writer = PdfFileWriter()
-        #     pdf_writer.addPage(pdf.getPage(page))
-        #     current_page_in_loop += 1
-        #     if current_page_in_loop == pages_per_pdf:
-        #         output_filename = f"{file.stem}_{current_pdf}.pdf"
-        #         full_output_filename = Path(
-        #             self.folder, output_filename
-        #         )
-        #         current_pdf += 1
-        #         current_page_in_loop = 0
-        #         with open(full_output_filename, 'wb') as out:
-        #             pdf_writer.write(out)
-        #         print(f"Créé : {full_output_filename}")
-        #         finished = True
-        # if not finished:
-        #     output_filename = f"{file.stem}_{current_pdf}.pdf"
-        #     full_output_filename = Path(
-        #         self.folder, output_filename
-        #     )
-        #     with open(full_output_filename, 'wb') as out:
-        #         pdf_writer.write(out)
-        #     print(f"Créé : {full_output_filename}")
         self.emitter.done.emit(str(file.stem))
 
 
@@ -101,11 +84,19 @@ class SplitWindow(QWidget):
 
         # Icône du programme
         app_icon = QIcon()
-        app_icon.addFile('logo_icon_white.png', QSize(64, 64))
+        app_icon.addFile(
+            resource_path(
+                os.path.join('images', 'logo_icon_white.png')
+            ), QSize(64, 64)
+        )
         self.setWindowIcon(app_icon)
 
         # Définit le logo du programme
-        image = QPixmap('logo-app.png')
+        image = QPixmap(
+            resource_path(
+                os.path.join('images', 'logo-app.png')
+            )
+        )
         self.logo_lbl = QLabel()
         self.logo_lbl.setAlignment(Qt.AlignCenter)
         self.logo_lbl.setPixmap(image)

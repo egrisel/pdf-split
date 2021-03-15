@@ -1,6 +1,6 @@
 setup(
     name="pdf-split",
-    version="1.0.0",
+    version="1.0.1",
     description="Fractionner des PDF",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     install_requires=[
         # "feedparser", "html2text", "importlib_resources", "typing"
-        "PySide2", "PyPDF2"
+        "PySide2", "PyMuPDF"
     ],
-    entry_points={"console_scripts": ["pdf_split=pdf_split.__main__:main"]},
+    entry_points={"console_scripts": ["pdf_split=app:main"]},
 )
