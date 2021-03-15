@@ -1,3 +1,4 @@
 PyPDF2
 PySide2
 pyinstaller
+PyMuPDF
